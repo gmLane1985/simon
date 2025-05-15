@@ -1,7 +1,6 @@
 # simon
 link:https://gmlane1985.github.io/simon/
 
-***currently not mobile friendly***
 
 A take on the classic game Simon, built with: HTML, CSS, JavaScript &amp; jQuery. 
 
