@@ -41,6 +41,7 @@ function activateButtons() {
       .off('touchstart')
       .on('touchstart', function (e) {
         e.preventDefault();
+        e.stopPropagation(); // Prevent touch from bubbling to document
         let userChosenColor = $(this).attr('id');
         userClickedPattern.push(userChosenColor);
         playSound(userChosenColor);
@@ -103,15 +104,16 @@ function gameOver() {
   playSound('wrong');
   $('body').addClass('game-over');
   const restartMsg = isMobile()
-    ? 'Game Over, Tap Anywhere to Restart'
-    : 'Game Over, Press Any Key to Restart';
-  $('#level-title').text(restartMsg);
+    ? 'Game Over<br><span style="font-size:1.2em;">Tap Anywhere to Restart</span>'
+    : 'Game Over<br><span style="font-size:1.2em;">Press Any Key to Restart</span>';
+  $('#level-title').html(restartMsg); // Use .html() to allow line break
   setTimeout(function () {
     $('body').removeClass('game-over');
-  }, 200);
+    // Delay re-enabling start listener so message is visible
+    started = false;
+    setupGameStartListener();
+  }, 600); // Increased delay for better visibility
   deactivateButtons();
-  started = false;
-  setupGameStartListener();
 }
 
 function resetGame() {
