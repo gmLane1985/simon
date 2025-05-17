@@ -18,7 +18,6 @@ function setupGameStartListener() {
       if (!started) {
         resetGame();
         started = true;
-
         $(document).off('touchstart.gameStart');
       }
     });
@@ -27,7 +26,6 @@ function setupGameStartListener() {
       if (!started) {
         resetGame();
         started = true;
-
         $(document).off('keydown.gameStart');
       }
     });
@@ -38,17 +36,28 @@ function setupGameStartListener() {
 setupGameStartListener();
 
 function activateButtons() {
-  $('.btn')
-    .off('click touchstart')
-    .on('click touchstart', function (e) {
-      // Prevent both click and touchstart from firing
-      e.preventDefault();
-      let userChosenColor = $(this).attr('id');
-      userClickedPattern.push(userChosenColor);
-      playSound(userChosenColor);
-      animatePress(userChosenColor);
-      checkAnswer(userClickedPattern.length - 1);
-    });
+  if (isMobile()) {
+    $('.btn')
+      .off('touchstart')
+      .on('touchstart', function (e) {
+        e.preventDefault();
+        let userChosenColor = $(this).attr('id');
+        userClickedPattern.push(userChosenColor);
+        playSound(userChosenColor);
+        animatePress(userChosenColor);
+        checkAnswer(userClickedPattern.length - 1);
+      });
+  } else {
+    $('.btn')
+      .off('click')
+      .on('click', function (e) {
+        let userChosenColor = $(this).attr('id');
+        userClickedPattern.push(userChosenColor);
+        playSound(userChosenColor);
+        animatePress(userChosenColor);
+        checkAnswer(userClickedPattern.length - 1);
+      });
+  }
 }
 
 function deactivateButtons() {
@@ -109,7 +118,6 @@ function resetGame() {
   level = 0;
   gamePattern = [];
   userClickedPattern = [];
-  $('#level-title').text(`Level ${level}`);
   activateButtons();
   nextSequence();
 }
