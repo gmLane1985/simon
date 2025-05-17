@@ -80,6 +80,11 @@ body {
     border-radius: 10px;
     font-size: 1em;
   }
+    #level-title {
+    font-size: 1.4rem;
+    word-break: break-word;
+    padding: 0 8px;
+  }
 }
 
 @media (max-width: 350px) {
